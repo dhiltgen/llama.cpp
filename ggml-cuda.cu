@@ -6757,6 +6757,7 @@ static cudaError_t ggml_cuda_cpy_tensor_2d(
         CUDA_CHECK(cudaGetDevice(&id));
         src_ptr = (char *) extra->data_device[id];
     } else {
+        fprintf(stderr, "ggml_cuda_cpy_tensor_2d assert: backend: %d\n", src->backend);
         GGML_ASSERT(false);
     }
     char * dst_ptr = (char *) dst;
