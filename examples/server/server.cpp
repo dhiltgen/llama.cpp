@@ -1564,12 +1564,6 @@ struct llama_server_context
                         LOG_TEE("slot %d : in cache: %i tokens | to process: %i tokens\n", slot.id, slot.n_past, slot.num_prompt_tokens_processed);
                     }
 
-                    LOG_TEE("slot %d : kv cache rm - [%d, end)\n", slot.id, (int) system_tokens.size() + slot.n_past);
-
-                    llama_kv_cache_seq_rm(ctx, slot.id, system_tokens.size() + slot.n_past, -1);
-
-                    slot.cache_tokens = prompt_tokens;
-
                     if (slot.n_past == slot.num_prompt_tokens && slot.n_past > 0)
                     {
                         // we have to evaluate at least 1 token to generate logits.
@@ -1580,6 +1574,12 @@ struct llama_server_context
                             slot.n_past_se--;
                         }
                     }
+
+                    LOG_TEE("slot %d : kv cache rm - [%d, end)\n", slot.id, (int) system_tokens.size() + slot.n_past);
+
+                    llama_kv_cache_seq_rm(ctx, slot.id, system_tokens.size() + slot.n_past, -1);
+
+                    slot.cache_tokens = prompt_tokens;
 
                     LOG_VERBOSE("prompt ingested", {
                                                     {"n_past", slot.n_past},
