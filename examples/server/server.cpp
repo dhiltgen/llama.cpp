@@ -30,6 +30,10 @@
 #include <atomic>
 #include <signal.h>
 
+#ifdef GGML_USE_CUBLAS
+extern "C" GGML_CALL void ggml_device_reset();
+#endif
+
 using json = nlohmann::json;
 
 struct server_params
@@ -3160,6 +3164,3 @@ int main(int argc, char **argv)
     return 0;
 }
 
-#ifdef GGML_USE_CUBLAS
-extern "C" GGML_CALL void ggml_device_reset();
-#endif
