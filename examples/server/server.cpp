@@ -3154,5 +3154,12 @@ int main(int argc, char **argv)
     t.join();
 
     llama_backend_free();
+#ifdef GGML_USE_CUBLAS
+    ggml_device_reset();
+#endif
     return 0;
 }
+
+#ifdef GGML_USE_CUBLAS
+extern "C" GGML_CALL void ggml_device_reset();
+#endif

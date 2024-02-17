@@ -11529,3 +11529,9 @@ GGML_CALL int ggml_backend_cuda_reg_devices() {
     }
     return device_count;
 }
+
+extern "C" GGML_CALL void ggml_device_reset();
+GGML_CALL void ggml_device_reset() {
+    fprintf(stderr, "XXX calling cudaDeviceReset\n");
+    CUDA_CHECK(cudaDeviceReset());
+}
